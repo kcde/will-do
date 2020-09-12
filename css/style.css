@@ -41,8 +41,8 @@ body {
     width: 300px;
     margin: auto auto;
     padding-bottom: 6rem;
-    box-shadow: 10px 0 30px -15px var(--clr-light-blue),
-        -10px 0 30px -15px var(--clr-light-blue);
+    box-shadow: 10px 0 20px -15px var(--clr-light-blue),
+        -10px 0 20px -15px var(--clr-light-blue);
 }
 
 .list-header {
