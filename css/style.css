@@ -30,7 +30,9 @@ body {
 
 .btn {
     border: none;
-    padding: 0.5rem 1rem;
+    width: 50px;
+    height: 50px;
+
     border-radius: 100vw;
 }
 
@@ -69,13 +71,16 @@ body {
     justify-content: space-between;
     align-items: center;
 }
+.task p {
+    font-size: 14px;
+}
 
 .task:not(:last-child) {
     margin-bottom: 1.7rem;
 }
 
 .task-icon {
-    font-size: 1.3rem;
+    font-size: 1.5rem;
 }
 
 .add-btn {
@@ -90,5 +95,5 @@ body {
     cursor: pointer;
 }
 .add-btn:hover {
-    transform: rotate(360deg) scale(1.2);
+    transform: rotate(360deg) scale(1.1);
 }
