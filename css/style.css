@@ -18,7 +18,7 @@
 body {
     background-color: var(--clr-very-light-gray);
     font-family: "Lato", sans-serif;
-    font-weight: 300;
+    font-weight: 400;
     min-height: 100vh;
     display: grid;
     place-items: center;
@@ -75,17 +75,27 @@ body {
 .task p {
     font-size: 14px;
     letter-spacing: 0.1rem;
+    position: relative;
+    color: var(--clr-dark-gray);
 }
 
-/* .task p::after {
-    content: "\f111";
-    font-family: "Font Awesome 5 Free";
-    font-weight: 400;
-    font-size: 1.5rem;
-    color: var(--clr-light-gray);
+.task p::before {
+    content: "";
+    width: 0%;
+    height: 1.5px;
+    background-color: var(--clr-dark-gray);
+    transition: width 450ms cubic-bezier(0, 1.16, 0.32, 1.27);
+    top: 50%;
+
     position: absolute;
-    right: 0;
-} */
+}
+
+.done p::before {
+    width: 100%;
+}
+.done p {
+    color: var(--clr-light-gray);
+}
 
 .task:not(:last-child) {
     margin-bottom: 1.7rem;
