@@ -7,7 +7,7 @@
             src="https://kit.fontawesome.com/859d34c07a.js"
             crossorigin="anonymous"
         ></script>
-        <link rel="icon" href="favicon.ico" type="image/x-icon" />
+        <link rel="icon" href="./favicon.ico" type="image/x-icon" />
         <link rel="stylesheet" href="./css/reset.css" />
         <link rel="stylesheet" href="./css/style.css" />
         <title>WILL DO</title>
@@ -57,9 +57,18 @@
                     </div>
                 </div>
             </div>
-            <button class="add-btn btn">
-                <i class="fas fa-plus"></i>
-            </button>
+            <div class="task-add container">
+                <input
+                    type="text"
+                    class="new-task"
+                    name="new-task"
+                    id="new-task"
+                    placeholder="What next?"
+                />
+                <label for="new-task" class="add-btn btn">
+                    <i class="fas fa-plus"></i>
+                </label>
+            </div>
         </div>
     </body>
     <script src="./app/app.js"></script>

@@ -32,7 +32,6 @@ body {
     border: none;
     width: 50px;
     height: 50px;
-
     border-radius: 100vw;
 }
 
@@ -114,6 +113,37 @@ body {
 }
 .done-icon {
     transition: transform 450ms cubic-bezier(0, 1.16, 0.32, 1.27);
+    transform: scale(0);
+}
+
+.done .task-icon .done-icon {
+    transform: scale(1);
+}
+
+.task-add {
+    position: absolute;
+    bottom: 20px;
+    right: 0;
+    left: 0;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    align-items: center;
+}
+
+.new-task {
+    color: var(--clr-light-gray);
+    width: 73%;
+    font-weight: 300;
+    padding-left: 5px;
+    border: none;
+    border-bottom: 1px solid var(--clr-light-gray);
+    transform: scale(0);
+    outline: none;
+}
+.new-task-show {
+    transition: all 350ms cubic-bezier(0, 1.16, 0.32, 1.27);
+    transform: scale(1);
 }
 
 .add-btn {
@@ -121,12 +151,12 @@ body {
     text-align: center;
     color: white;
     font-size: 30px;
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
     transition: transform 350ms ease-in-out;
     cursor: pointer;
+    display: grid;
+    place-items: center;
 }
-.add-btn:hover {
+.add-btn-clicked {
     transform: scale(1.2);
+    background-color: var(--clr-light-blue);
 }
