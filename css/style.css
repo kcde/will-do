@@ -57,7 +57,7 @@ body {
 .list-date {
     text-transform: capitalize;
     font-weight: 700;
-    margin-bottom: 0.3rem;
+    margin-bottom: 0.6rem;
 }
 
 .tasks {

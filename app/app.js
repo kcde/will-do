@@ -1,7 +1,8 @@
 const listDate = document.querySelector(".list-date");
 const taskAmount = document.querySelector(".task-amount");
+const taskContainer = document.querySelector(".tasks");
 const tasks = document.querySelectorAll(".task");
-const taskIcons = document.querySelectorAll(".task-icon");
+
 const newTaskBtn = document.querySelector(".add-btn");
 const newTask = document.querySelector(".new-task");
 const date = new Date();
@@ -54,20 +55,51 @@ const fullDate =
 // rendering date on web page
 listDate.innerHTML = fullDate;
 
+// list of tasks
+const taskList = [{ name: "blessing" }, { name: "kels" }];
+
+//function to add task to task list array
+const addTask = (task) => {
+    id = taskList.length + 1;
+    taskList.push({ id: id, name: task, done: false });
+};
+
+const taskIcons = document.querySelectorAll(".task-icon");
 taskIcons.forEach((icon) => {
     icon.addEventListener("click", () => {
         icon.parentElement.classList.add("done");
     });
 });
 
+// click button to add task
 newTaskBtn.addEventListener("click", () => {
     if (newTaskBtn.classList.contains("add-btn-clicked")) {
         newTaskBtn.classList.remove("add-btn-clicked");
         newTask.classList.remove("new-task-show");
         console.log(newTask.value);
+        console.log(taskList);
+
         newTask.value = "";
     } else {
         newTaskBtn.classList.add("add-btn-clicked");
         newTask.classList.add("new-task-show");
     }
 });
+
+//enter button to add task
+window.addEventListener("keyup", (e) => {
+    if (newTaskBtn.classList.contains("add-btn-clicked")) {
+        if (e.keyCode === 13) {
+            newTask.classList.remove("new-task-show");
+            newTaskBtn.classList.remove("add-btn-clicked");
+            newTask.classList.remove("new-task-show");
+            console.log(newTask.value);
+            console.log(taskList);
+            newTask.value = "";
+        }
+    } else {
+        return;
+    }
+});
+
+// localStorage.setItem("name", JSON.stringify({ loud: "gim" }));
