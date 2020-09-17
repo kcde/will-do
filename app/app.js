@@ -90,20 +90,55 @@ function addTask(task) {
     taskContainer.appendChild(outer);
 }
 
+function nullInput() {
+    if (newTask.value.trim().length === 0) {
+        return true;
+    }
+}
+
+function showInput() {
+    newTaskBtn.classList.add("add-btn-clicked");
+    newTask.classList.add("new-task-show");
+}
+
+function hideInput() {
+    newTaskBtn.classList.remove("add-btn-clicked");
+    newTask.classList.remove("new-task-show");
+}
+
 fullDateRender();
 render();
 
-// click button to add task
+//click button to add task
 newTaskBtn.addEventListener("click", () => {
     if (newTaskBtn.classList.contains("add-btn-clicked")) {
+        if (nullInput()) {
+            newTask.value = "";
+            return;
+        }
+
         newTaskBtn.classList.remove("add-btn-clicked");
         newTask.classList.remove("new-task-show");
         addTask(newTask.value);
         newTask.value = "";
         save();
     } else {
-        newTaskBtn.classList.add("add-btn-clicked");
-        newTask.classList.add("new-task-show");
+        showInput();
+    }
+});
+
+newTask.addEventListener("keydown", (e) => {
+    if (e.which === 13) {
+        if (newTaskBtn.classList.contains("add-btn-clicked")) {
+            if (nullInput()) {
+                newTask.value = "";
+                return;
+            }
+            hideInput();
+            addTask(newTask.value);
+            newTask.value = "";
+            save();
+        }
     }
 });
 
