@@ -123,8 +123,7 @@ newTaskBtn.addEventListener("click", () => {
             return;
         }
 
-        newTaskBtn.classList.remove("add-btn-clicked");
-        newTask.classList.remove("new-task-show");
+        hideInput();
         addTask(newTask.value);
         newTask.value = "";
         save();
@@ -144,7 +143,6 @@ newTask.addEventListener("keydown", (e) => {
             addTask(newTask.value);
             newTask.value = "";
             save();
-            render();
         }
     }
 });
@@ -152,7 +150,6 @@ newTask.addEventListener("keydown", (e) => {
 taskContainer.addEventListener("click", (e) => {
     if (e.target.classList.contains("task-icon")) {
         e.target.parentElement.classList.add("done");
-        save();
-        render();
     }
+    save();
 });
