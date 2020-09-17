@@ -3,6 +3,7 @@ const taskAmount = document.querySelector(".task-amount");
 const taskContainer = document.querySelector(".tasks");
 const tasks = document.querySelectorAll(".task");
 const newTaskBtn = document.querySelector(".add-btn");
+const deleteBtn = document.querySelectorAll(".delete-btn");
 const newTask = document.querySelector(".new-task");
 const date = new Date();
 
@@ -31,6 +32,7 @@ const fullDateRender = () => {
     const getDayName = () => {
         const days = [
             "sunday",
+            "monday",
             "tuesday",
             "wednesday",
             "thursday",
@@ -106,6 +108,10 @@ function addTask(task) {
     taskAmount.innerHTML = Number(taskAmount.innerHTML) + 1;
 }
 
+function removeTask(task) {
+    task.parentElement.parentElement.remove();
+}
+
 function nullInput() {
     if (newTask.value.trim().length === 0) {
         return true;
@@ -157,9 +163,15 @@ newTask.addEventListener("keydown", (e) => {
     }
 });
 
+// even listener for done icon and delete icon
 taskContainer.addEventListener("click", (e) => {
     if (e.target.classList.contains("task-icon")) {
         e.target.parentElement.classList.add("done");
+    }
+
+    if (e.target.classList.contains("delete-btn")) {
+        e.target.parentElement.parentElement.remove();
+        taskAmount.innerHTML = Number(taskAmount.innerHTML) - 1;
     }
     save();
 });
