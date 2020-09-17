@@ -55,18 +55,23 @@ const fullDateRender = () => {
     // rendering date on web page
     listDate.innerHTML = fullDate;
 };
+
 function render() {
     if (localStorage.getItem("list")) {
         taskContainer.innerHTML = localStorage.getItem("list");
+    }
+
+    if (localStorage.getItem("task-count")) {
+        taskAmount.innerHTML = Number(localStorage.getItem("task-count"));
+    } else {
+        taskAmount.innerHTML = 0;
     }
 }
 
 function save() {
     localStorage.setItem("list", taskContainer.innerHTML);
-}
 
-function taskCounter() {
-    taskCount++;
+    localStorage.setItem("task-count", taskAmount.innerHTML);
 }
 
 function addTask(task) {
@@ -88,6 +93,7 @@ function addTask(task) {
     outer.appendChild(inner);
 
     taskContainer.appendChild(outer);
+    taskAmount.innerHTML = Number(taskAmount.innerHTML) + 1;
 }
 
 function nullInput() {
@@ -138,6 +144,7 @@ newTask.addEventListener("keydown", (e) => {
             addTask(newTask.value);
             newTask.value = "";
             save();
+            render();
         }
     }
 });
@@ -146,5 +153,6 @@ taskContainer.addEventListener("click", (e) => {
     if (e.target.classList.contains("task-icon")) {
         e.target.parentElement.classList.add("done");
         save();
+        render();
     }
 });
