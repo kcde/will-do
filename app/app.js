@@ -80,12 +80,22 @@ function addTask(task) {
     icon.classList.add("fa-check");
     icon.classList.add("done-icon");
 
+    // <i class="fas fa-minus-circle del"></i>
+
     const inner = document.createElement("div");
     inner.classList.add("task-icon");
     inner.appendChild(icon);
 
+    const delBtn = document.createElement("i");
+    delBtn.classList.add("fa");
+    delBtn.classList.add("fa-minus-circle");
+    delBtn.classList.add("delete-btn");
+
+    console.log(delBtn);
+
     const text = document.createElement("p");
-    text.innerHTML = task;
+    text.appendChild(delBtn);
+    text.innerHTML += task;
 
     const outer = document.createElement("div");
     outer.classList.add("task");
