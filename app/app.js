@@ -7,6 +7,14 @@ const deleteBtn = document.querySelectorAll(".delete-btn");
 const newTask = document.querySelector(".new-task");
 const date = new Date();
 
+
+//Local storage array
+const listItems =  JSON.parse(localStorage.getItem("willDo.list"))  || [];
+//    listItems.push(createTask('lamba') )
+
+
+
+// Current Date handling
 const fullDateRender = () => {
     // getting the name of the present month
     const getMonthName = () => {
@@ -58,22 +66,42 @@ const fullDateRender = () => {
     listDate.innerHTML = fullDate;
 };
 
-function render() {
-    if (localStorage.getItem("list")) {
-        taskContainer.innerHTML = localStorage.getItem("list");
-    }
 
-    if (localStorage.getItem("task-count")) {
-        taskAmount.innerHTML = Number(localStorage.getItem("task-count"));
-    } else {
-        taskAmount.innerHTML = 0;
-    }
+const ceateTask = (task, isDone = false )=>{
+    return { id:Date.now(), task:task, isDone:isDone }
+}
+
+
+// render all tasks from list items
+function render() {
+    listItems.forEach(el =>{
+
+        if(el.isDone === false){
+            taskContainer.innerHTML += `
+        <div class="task">
+        <p><i class="fas fa-minus-circle delete-btn">${el.task}</p>
+        <div class="task-icon">
+            <i class="fa fa-check done-icon"></i>
+        </div>
+    </div>`
+
+        }else{
+            taskContainer.innerHTML += `
+        <div class="task done">
+        <p><i class="fas fa-minus-circle delete-btn">${el.task}</p>
+        <div class="task-icon">
+            <i class="fa fa-check done-icon"></i>
+        </div>
+    </div>`
+        }
+        
+    })
 }
 
 function save() {
-    localStorage.setItem("list", taskContainer.innerHTML);
+    localStorage.setItem("willDo.list",  JSON.stringify(listItems))
 
-    localStorage.setItem("task-count", taskAmount.innerHTML);
+    // localStorage.setItem("task-count", taskAmount.innerHTML);
 }
 
 function addTask(task) {
@@ -128,8 +156,8 @@ function hideInput() {
     newTask.classList.remove("new-task-show");
 }
 
-fullDateRender();
-render();
+// fullDateRender();
+// render();
 
 //click button to add task
 newTaskBtn.addEventListener("click", () => {
