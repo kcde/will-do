@@ -4,12 +4,14 @@ const taskContainer = document.querySelector(".tasks");
 const tasks = document.querySelectorAll(".task");
 const newTaskBtn = document.querySelector(".add-btn");
 const deleteBtn = document.querySelectorAll(".delete-btn");
+const editBtn =  document.querySelector(".edit-btn")
 const newTask = document.querySelector(".new-task");
+const submitBtn = document.querySelector(".submit-btn")
 const date = new Date();
 
 
 //Local storage array
-const listItems =  JSON.parse(localStorage.getItem("willDo.list"))  || [];
+let listItems =  JSON.parse(localStorage.getItem("willDo.list"))  || [];
 //    listItems.push(createTask('lamba') )
 
 
@@ -65,11 +67,22 @@ const fullDateRender = () => {
     // rendering date on web page
     listDate.innerHTML = fullDate;
 };
+fullDateRender();
 
 
-const ceateTask = (task, isDone = false )=>{
+const createTask = (task, isDone = false )=>{
     return { id:Date.now(), task:task, isDone:isDone }
 }
+
+function save() {
+    localStorage.setItem("willDo.list",  JSON.stringify(listItems))
+    // localStorage.setItem("task-count", taskAmount.innerHTML);
+}
+
+function removeTask(task) {
+    task.parentElement.parentElement.remove();
+}
+
 
 
 // render all tasks from list items
@@ -78,67 +91,66 @@ function render() {
 
         if(el.isDone === false){
             taskContainer.innerHTML += `
-        <div class="task">
-        <p><i class="fas fa-minus-circle delete-btn">${el.task}</p>
-        <div class="task-icon">
-            <i class="fa fa-check done-icon"></i>
-        </div>
-    </div>`
+            <div class="task" data-id = "${el.id}">
+            <div class="task-check">
+                <div class="task-icon">
+                    <i class="fa fa-check done-icon"></i>
+                </div>
+                <p>${el.task}</p>
+            </div>
+
+            <div class="util">
+                <i class="far fa-edit edit-icon"></i>
+                <i class="fas fa-minus-circle delete-btn"></i>
+            </div>
+        </div>`
 
         }else{
             taskContainer.innerHTML += `
-        <div class="task done">
-        <p><i class="fas fa-minus-circle delete-btn">${el.task}</p>
-        <div class="task-icon">
-            <i class="fa fa-check done-icon"></i>
-        </div>
-    </div>`
+            <div class="task done " data-id = "${el.id}">
+            <div class="task-check">
+                <div class="task-icon">
+                    <i class="fa fa-check done-icon"></i>
+                </div>
+                <p>${el.task}</p>
+            </div>
+
+            <div class="util">
+                <i class="far fa-edit edit-icon"></i>
+                <i class="fas fa-minus-circle delete-btn"></i>
+            </div>
+        </div>`
         }
         
     })
 }
 
-function save() {
-    localStorage.setItem("willDo.list",  JSON.stringify(listItems))
+render();
 
-    // localStorage.setItem("task-count", taskAmount.innerHTML);
+
+
+function addTask(task,id) {
+    taskContainer.innerHTML += `
+    <div class="task" data-id = "${id}" >
+                    <div class="task-check">
+                        <div class="task-icon">
+                            <i class="fa fa-check done-icon"></i>
+                        </div>
+                        <p>${task}</p>
+                    </div>
+
+                    <div class="util">
+                        <i class="far fa-edit edit-icon"></i>
+                        <i class="fas fa-minus-circle delete-btn"></i>
+                    </div>
+                </div>
+    `
+
+    // taskAmount.innerHTML = Number(taskAmount.innerHTML) + 1;
+   
 }
 
-function addTask(task) {
-    const icon = document.createElement("i");
-    icon.classList.add("fa");
-    icon.classList.add("fa-check");
-    icon.classList.add("done-icon");
 
-    // <i class="fas fa-minus-circle del"></i>
-
-    const inner = document.createElement("div");
-    inner.classList.add("task-icon");
-    inner.appendChild(icon);
-
-    const delBtn = document.createElement("i");
-    delBtn.classList.add("fa");
-    delBtn.classList.add("fa-minus-circle");
-    delBtn.classList.add("delete-btn");
-
-    console.log(delBtn);
-
-    const text = document.createElement("p");
-    text.appendChild(delBtn);
-    text.innerHTML += task;
-
-    const outer = document.createElement("div");
-    outer.classList.add("task");
-    outer.appendChild(text);
-    outer.appendChild(inner);
-
-    taskContainer.appendChild(outer);
-    taskAmount.innerHTML = Number(taskAmount.innerHTML) + 1;
-}
-
-function removeTask(task) {
-    task.parentElement.parentElement.remove();
-}
 
 function nullInput() {
     if (newTask.value.trim().length === 0) {
@@ -156,50 +168,100 @@ function hideInput() {
     newTask.classList.remove("new-task-show");
 }
 
-// fullDateRender();
-// render();
+
+submitBtn.style.display = "none"
+editBtn.style.display = "none"
 
 //click button to add task
 newTaskBtn.addEventListener("click", () => {
-    if (newTaskBtn.classList.contains("add-btn-clicked")) {
-        if (nullInput()) {
-            newTask.value = "";
-            return;
-        }
-
-        hideInput();
-        addTask(newTask.value);
-        newTask.value = "";
-        save();
-    } else {
-        showInput();
-    }
+    newTaskBtn.style.display = "none"
+    submitBtn.style.display = "grid"
+    showInput();
+    newTask.value = "";
 });
 
-newTask.addEventListener("keydown", (e) => {
-    if (e.which === 13) {
-        if (newTaskBtn.classList.contains("add-btn-clicked")) {
-            if (nullInput()) {
-                newTask.value = "";
-                return;
-            }
-            hideInput();
-            addTask(newTask.value);
-            newTask.value = "";
-            save();
-        }
-    }
-});
+submitBtn.addEventListener("click", ()=>{
+    newTaskBtn.style.display = "grid"
+    submitBtn.style.display = "none"
+    hideInput();
+
+    if (nullInput()) {
+        return
+     }else{
+        
+
+        const createdTask = createTask(newTask.value)
+        addTask(newTask.value,createdTask.id);
+        listItems.push(createdTask )
+
+        save()
+     }
+
+     newTask.value = "";
+
+})
+
+// newTask.addEventListener("keydown", (e) => {
+//     if (e.which === 13) {
+//         if (newTaskBtn.classList.contains("add-btn-clicked")) {
+//             if (nullInput()) {
+//                 newTask.value = "";
+//                 return;
+//             }
+//             hideInput();
+//             addTask(newTask.value);
+//             newTask.value = "";
+//             save();
+//         }
+//     }
+// });
 
 // even listener for done icon and delete icon
 taskContainer.addEventListener("click", (e) => {
     if (e.target.classList.contains("task-icon")) {
-        e.target.parentElement.classList.add("done");
+        const dataId = parseInt( e.target.parentElement.parentElement.dataset.id);
+        let index = listItems.findIndex(tl => tl.id == dataId);
+        listItems[index].isDone = true;
+        save();
+        e.target.parentElement.parentElement.classList.add("done");
     }
 
     if (e.target.classList.contains("delete-btn")) {
+        const dataId = parseInt( e.target.parentElement.parentElement.dataset.id);
+        let index = listItems.findIndex(tl => tl.id == dataId);
+        listItems.splice(index,1)
+        save(); 
         e.target.parentElement.parentElement.remove();
-        taskAmount.innerHTML = Number(taskAmount.innerHTML) - 1;
+        // taskAmount.innerHTML = Number(taskAmount.innerHTML) - 1;
     }
-    save();
+
+    if(e.target.classList.contains("edit-icon")){
+        // e.target.parentElement.parentElement.remove()
+
+        editBtn.style.display = "grid";
+        submitBtn.style.display="none";
+        newTaskBtn.style.display = "none"
+        showInput();
+        const dataId = parseInt( e.target.parentElement.parentElement.dataset.id);
+        let listClone = listItems.slice();
+        let index = listClone.findIndex(tl => tl.id == dataId)
+        console.log(listClone[0].id);
+        newTask.value = listClone[index].task;
+       
+        editBtn.addEventListener("click",()=>{
+        listClone[index].task = newTask.value
+        listClone[index].task = newTask.value;
+        e.target.parentElement.previousElementSibling.children[1].textContent = newTask.value 
+        listItems=listClone;
+        save();
+        newTask.value =  "";     
+            })
+           
+
+    }
+        
+        
 });
+
+
+console.log(listItems.length)
