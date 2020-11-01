@@ -237,7 +237,8 @@ taskContainer.addEventListener('click', (e) => {
             save();
             newTask.value = '';
             editBtn.style.display = 'none';
-            submitBtn.style.display = 'grid';
+            submitBtn.style.display = 'none';
+            newTaskBtn.style.display = 'grid';
         });
     }
 });
