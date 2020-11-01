@@ -12,6 +12,9 @@ const date = new Date();
 
 //Local storage array
 let listItems =  JSON.parse(localStorage.getItem("willDo.list"))  || [];
+
+let listCounter = listItems.length
+console.log(listCounter);
 //    listItems.push(createTask('lamba') )
 
 
@@ -123,6 +126,8 @@ function render() {
         }
         
     })
+
+    taskAmount.textContent = listCounter;
 }
 
 render();
@@ -146,7 +151,6 @@ function addTask(task,id) {
                 </div>
     `
 
-    // taskAmount.innerHTML = Number(taskAmount.innerHTML) + 1;
    
 }
 
@@ -193,8 +197,10 @@ submitBtn.addEventListener("click", ()=>{
         const createdTask = createTask(newTask.value)
         addTask(newTask.value,createdTask.id);
         listItems.push(createdTask )
-
+        taskAmount.textContent++
+        
         save()
+
      }
 
      newTask.value = "";
@@ -232,6 +238,7 @@ taskContainer.addEventListener("click", (e) => {
         listItems.splice(index,1)
         save(); 
         e.target.parentElement.parentElement.remove();
+        taskAmount.textContent--;
         // taskAmount.innerHTML = Number(taskAmount.innerHTML) - 1;
     }
 
